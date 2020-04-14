@@ -26,14 +26,12 @@ public class MovieAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        ImageView vImmagine = view.findViewById(R.id.imageView3);
-        TextView vTitolo = view.findViewById(R.id.textViewTitolo);
-        TextView vDescrizione = view.findViewById(R.id.textViewDescrizione);
+        ImageView vImmagine1 = view.findViewById(R.id.imageView);
+        ImageView vImmagine2 = view.findViewById(R.id.imageView2);
 
         //DA FARE GLIDE
-        //vImmagine =
-        vTitolo.setText(cursor.getString(cursor.getColumnIndex(MovieTableHelper.TITOLO)));
-        vDescrizione.setText(cursor.getString(cursor.getColumnIndex(MovieTableHelper.DESCRIZIONE)));
+        //vImmagine1 = FARE IL GLIDE DELLE IMMAGINE
+        //vImmagine2 = FARE IL GLIDE DELLA IMMAGINE
 
     }
 }
