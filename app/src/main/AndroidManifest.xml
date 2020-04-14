@@ -17,6 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="com.example.projectwork2020.data.MovieProvider"
+            android:authorities="com.example.projectwork2020.data.MovieProvider" />
     </application>
 
 </manifest>
