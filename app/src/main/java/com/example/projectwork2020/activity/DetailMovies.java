@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.projectwork2020.MovieAdapter;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.data.MovieProvider;
@@ -39,7 +40,7 @@ public class DetailMovies extends AppCompatActivity {
 
             mTitolo.setText(vTitolo);
             mDescrizione.setText(vDescrizione);
-            //mImmagine = FARE GLIDE PER IMMAGINE
+            Glide.with(DetailMovies.this).load(vImmagine).into(mImmagine);
         }
     }
 }
