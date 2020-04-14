@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WebService {
 
-    private String MOVIE_BASE_URL = "https://jsonplaceholder.typicode.com/";
+    private String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie/";
     private static WebService instance;
     private MovieService movieService;
 
