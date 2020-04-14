@@ -9,6 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.projectwork2020.data.MovieTableHelper;
 
 public class MovieAdapter extends CursorAdapter {
@@ -29,9 +30,18 @@ public class MovieAdapter extends CursorAdapter {
         ImageView vImmagine1 = view.findViewById(R.id.imageView);
         ImageView vImmagine2 = view.findViewById(R.id.imageView2);
 
-        //DA FARE GLIDE
-        //vImmagine1 = FARE IL GLIDE DELLE IMMAGINE
-        //vImmagine2 = FARE IL GLIDE DELLA IMMAGINE
+        Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine1);
+        cursor.moveToNext();
+        if(cursor.isAfterLast())
+        {
+            return;
+        }
+        else
+        {
+            Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine2);
+        }
+
+
 
     }
 }
