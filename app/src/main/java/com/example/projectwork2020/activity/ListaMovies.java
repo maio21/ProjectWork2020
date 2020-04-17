@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.GridLayoutAnimationController;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.projectwork2020.adapter.MovieAdapter;

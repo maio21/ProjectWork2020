@@ -42,8 +42,5 @@ public class MovieAdapter extends CursorAdapter {
         {
             Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine2);
         }
-
-
-
     }
 }
