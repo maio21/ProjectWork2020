@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.activity.DetailMovies;
 import com.example.projectwork2020.activity.ListaMovies;
+import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
 
 public class MovieAdapter extends CursorAdapter {
@@ -34,46 +35,13 @@ public class MovieAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
-        ImageView vImmagine1 = view.findViewById(R.id.imageView);
-        ImageView vImmagine2 = view.findViewById(R.id.imageView2);
-
-        final TextView vIdSx = view.findViewById(R.id.textViewIDSx);
-        final int vIdSxInt = Integer.parseInt((String) vIdSx.getText());
-
-        final TextView vIdDx = view.findViewById(R.id.textViewIDDx);
-        final int vIdDxInt = Integer.parseInt((String) vIdDx.getText());
-
-
-        LinearLayout linearLayoutSx = view.findViewById(R.id.linearLayoutSx);
-        linearLayoutSx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent vIntent = new Intent(context, DetailMovies.class);
-                Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", vIdSxInt);
-
-                vIntent.putExtras(vBundle);
-                context.startActivity(vIntent);
-            }
-        });
-
-        LinearLayout linearLayoutDx = view.findViewById(R.id.linearLayoutDx);
-        linearLayoutDx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent vIntent = new Intent(context, DetailMovies.class);
-                Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", vIdDxInt);
-
-                vIntent.putExtras(vBundle);
-                context.startActivity(vIntent);
-            }
-        });
+        final ImageView vImmagine1 = view.findViewById(R.id.imageView);
+        final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
 
 
 
         Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine1);
-        vIdSx.setText(cursor.getString(cursor.getColumnIndex(MovieTableHelper._ID)));
+        vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
         cursor.moveToNext();
         if(cursor.isAfterLast())
         {
@@ -82,7 +50,32 @@ public class MovieAdapter extends CursorAdapter {
         else
         {
             Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine2);
-            vIdDx.setText(cursor.getString(cursor.getColumnIndex(MovieTableHelper._ID)));
+            vImmagine2.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
         }
+
+        vImmagine1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int vId = Integer.parseInt((String) vImmagine1.getTag());
+                Intent vIntent = new Intent();
+                Bundle vBundle = new Bundle();
+                vBundle.putInt("_ID", vId);
+                vIntent.putExtras(vIntent);
+                context.startActivity(vIntent);
+            }
+        });
+
+        vImmagine2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int vId = Integer.parseInt((String) vImmagine2.getTag());
+                Intent vIntent = new Intent();
+                Bundle vBundle = new Bundle();
+                vBundle.putInt("_ID", vId);
+                vIntent.putExtras(vIntent);
+                context.startActivity(vIntent);
+            }
+        });
+
     }
 }

@@ -62,23 +62,18 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
         mList = findViewById(R.id.listViewFilm);
 
-        mList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
         
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent vIntent = new Intent(ListaMovies.this, DetailMovies.class);
-                Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", (int) l);
-
-                vIntent.putExtras(vBundle);
-                startActivity(vIntent);
-            }
-        });
+//        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent vIntent = new Intent(ListaMovies.this, DetailMovies.class);
+//                Bundle vBundle = new Bundle();
+//                vBundle.putInt("_ID", (int) l);
+//
+//                vIntent.putExtras(vBundle);
+//                startActivity(vIntent);
+//            }
+//        });
         
         aggiornaListaFilm();
     }

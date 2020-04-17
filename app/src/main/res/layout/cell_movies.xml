@@ -6,12 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_columnWeight="1">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutSx"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -20,19 +14,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_launcher_foreground" />
-        <TextView
-            android:id="@+id/textViewIDSx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayoutDx"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView"
@@ -41,11 +23,5 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_launcher_foreground" />
-        <TextView
-            android:id="@+id/textViewIDDx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-    </LinearLayout>
 
 </LinearLayout>
