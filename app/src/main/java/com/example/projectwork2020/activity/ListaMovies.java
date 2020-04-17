@@ -54,6 +54,7 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
                       Log.d("asda", ""+ vValues);
                   }
               }  else {
+                  Log.d("erroreAPI", errorMessage + " : " + errorCode);
                   aggiornaListaFilm();
               }
         }
@@ -66,7 +67,9 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
         // chiamata al Web Service
         webService = WebService.getInstance();
+        Log.d("asdaNO", "no");
         webService.getMovie(webServerListener);
+        Log.d("asdaSI", "si");
 
         mList = findViewById(R.id.listViewFilm);
 

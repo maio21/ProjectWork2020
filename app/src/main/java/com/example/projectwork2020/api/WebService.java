@@ -1,10 +1,6 @@
 package com.example.projectwork2020.api;
 
-import android.content.ContentValues;
 import android.util.Log;
-
-import com.example.projectwork2020.data.MovieProvider;
-import com.example.projectwork2020.data.MovieTableHelper;
 
 import java.io.IOException;
 import java.util.List;
