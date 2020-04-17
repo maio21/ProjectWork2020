@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.projectwork2020.MovieAdapter;
+import com.example.projectwork2020.adapter.MovieAdapter;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.data.MovieProvider;
 

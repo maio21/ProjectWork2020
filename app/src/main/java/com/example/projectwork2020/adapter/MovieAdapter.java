@@ -1,4 +1,4 @@
-package com.example.projectwork2020;
+package com.example.projectwork2020.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.projectwork2020.R;
 import com.example.projectwork2020.data.MovieTableHelper;
 
 public class MovieAdapter extends CursorAdapter {
