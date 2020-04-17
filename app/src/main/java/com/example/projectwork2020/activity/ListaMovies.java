@@ -32,6 +32,12 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         setContentView(R.layout.activity_lista_movies);
         
         mList = findViewById(R.id.listViewFilm);
+
+        mList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
