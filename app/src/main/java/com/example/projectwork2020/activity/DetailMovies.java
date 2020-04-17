@@ -35,7 +35,7 @@ public class DetailMovies extends AppCompatActivity {
             vCursor.moveToNext();
             String vTitolo = vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.TITOLO));
             String vDescrizione = vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.DESCRIZIONE));
-            String vImmagine = vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.IMG_DESCRIZIONE));
+            String vImmagine = "https://image.tmdb.org/t/p/w500/" + vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.IMG_DESCRIZIONE));
 
             mTitolo.setText(vTitolo);
             mDescrizione.setText(vDescrizione);

@@ -1,6 +1,10 @@
 package com.example.projectwork2020.api;
 
+import android.content.ContentValues;
 import android.util.Log;
+
+import com.example.projectwork2020.data.MovieProvider;
+import com.example.projectwork2020.data.MovieTableHelper;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,6 +42,15 @@ public class WebService {
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
                 if (response.code() == 200) {
                     callback.onMovieFetched(true, response.body(), -1, null);
+                    /*ContentValues vValues = new ContentValues();
+                    for (int i = 0; i<response.body().size(); i++){
+                        vValues.put(MovieTableHelper.TITOLO, response.body().get(i).getTitle());
+                        vValues.put(MovieTableHelper.DESCRIZIONE, response.body().get(i).getOverview());
+                        vValues.put(MovieTableHelper.PAGINA, response.body().get(i).getPage());
+                        vValues.put(MovieTableHelper.IMG_COPERTINA, response.body().get(i).getBackdrop_path());
+                        vValues.put(MovieTableHelper.IMG_DESCRIZIONE, response.body().get(i).getPoster_path());
+                        getContentResolver.insert(MovieProvider.MOVIES_URI, vValues, null);
+                    }*/
                 } else {
                     try {
                         callback.onMovieFetched(true, null, response.code(), response.errorBody().string());

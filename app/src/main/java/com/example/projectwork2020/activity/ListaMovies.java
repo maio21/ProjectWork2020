@@ -7,6 +7,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,19 +19,49 @@ import android.widget.ListView;
 
 import com.example.projectwork2020.adapter.MovieAdapter;
 import com.example.projectwork2020.R;
+import com.example.projectwork2020.api.IWebServer;
+import com.example.projectwork2020.api.Movie;
+import com.example.projectwork2020.api.WebService;
 import com.example.projectwork2020.data.MovieProvider;
+import com.example.projectwork2020.data.MovieTableHelper;
+
+import java.util.List;
 
 public class ListaMovies extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     
     ListView mList;
     MovieAdapter mAdapter;
     public static final int MY_LOADER_ID = 0;
+    private WebService webService;
+
+    private IWebServer webServerListener = new IWebServer() {
+        @Override
+        public void onMovieFetched(boolean success, List<Movie> movies, int errorCode, String errorMessage) {
+              if(success){
+                  ContentValues vValues = new ContentValues();
+                  for (int i = 0; i<movies.size(); i++) {
+                      vValues.put(MovieTableHelper.TITOLO, movies.get(i).getTitle());
+                      vValues.put(MovieTableHelper.DESCRIZIONE, movies.get(i).getOverview());
+                      vValues.put(MovieTableHelper.PAGINA, movies.get(i).getPage());
+                      vValues.put(MovieTableHelper.IMG_COPERTINA, movies.get(i).getBackdrop_path());
+                      vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.get(i).getPoster_path());
+                      getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
+                  }
+              }  else {
+                  aggiornaListaFilm();
+              }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_movies);
-        
+
+        // chiamata al Web Service
+        webService = WebService.getInstance();
+        webService.getMovie(webServerListener);
+
         mList = findViewById(R.id.listViewFilm);
 
         mList.setOnClickListener(new View.OnClickListener() {
@@ -78,4 +109,5 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
     public void onLoaderReset(@NonNull Loader loader) {
         mAdapter.changeCursor(null);
     }
+
 }
