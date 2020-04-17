@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.GridLayoutAnimationController;
 import android.widget.AdapterView;
@@ -42,8 +43,15 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
                   ContentValues vValues = new ContentValues();
                   for (int i = 0; i<movies.size(); i++) {
                       vValues.put(MovieTableHelper.PAGINA, movies.get(i).getPage());
-                      vValues.put(MovieTableHelper.TITOLO, movies.get(i).getMovieResult().get(i).getTitle());
+                      for(int j = 0; j<movies.get(i).getMovieResult().size(); j++){
+                          vValues.put(MovieTableHelper.TITOLO, movies.get(i).getMovieResult().get(j).getTitle());
+                          vValues.put(MovieTableHelper.DESCRIZIONE, movies.get(i).getMovieResult().get(j).getOverview());
+                          vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.get(i).getMovieResult().get(j).getBackdrop_path());
+                          vValues.put(MovieTableHelper.IMG_COPERTINA, movies.get(i).getMovieResult().get(j).getPoster_path());
+                      }
                       getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
+
+                      Log.d("asda", ""+ vValues);
                   }
               }  else {
                   aggiornaListaFilm();
