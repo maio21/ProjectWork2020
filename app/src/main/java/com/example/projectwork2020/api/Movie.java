@@ -7,7 +7,6 @@ public class Movie {
     private String overview;
     private String backdrop_path;
     private String poster_path;
-    private int page;
 
     public String getTitle() {
         return title;
@@ -41,11 +40,5 @@ public class Movie {
         this.poster_path = poster_path;
     }
 
-    public int getPage() {
-        return page;
-    }
 
-    public void setPage(int page) {
-        this.page = page;
-    }
 }

@@ -36,21 +36,12 @@ public class WebService {
         return instance;
     }
     public void getMovie(final IWebServer callback) {
-        Call<List<Movie>> moviesRequest = movieService.getMovie();
-        moviesRequest.enqueue(new Callback<List<Movie>>() {
+        Call<List<MoviePageResult>> moviesRequest = movieService.getMovie();
+        moviesRequest.enqueue(new Callback<List<MoviePageResult>>() {
             @Override
-            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+            public void onResponse(Call<List<MoviePageResult>> call, Response<List<MoviePageResult>> response) {
                 if (response.code() == 200) {
                     callback.onMovieFetched(true, response.body(), -1, null);
-                    /*ContentValues vValues = new ContentValues();
-                    for (int i = 0; i<response.body().size(); i++){
-                        vValues.put(MovieTableHelper.TITOLO, response.body().get(i).getTitle());
-                        vValues.put(MovieTableHelper.DESCRIZIONE, response.body().get(i).getOverview());
-                        vValues.put(MovieTableHelper.PAGINA, response.body().get(i).getPage());
-                        vValues.put(MovieTableHelper.IMG_COPERTINA, response.body().get(i).getBackdrop_path());
-                        vValues.put(MovieTableHelper.IMG_DESCRIZIONE, response.body().get(i).getPoster_path());
-                        getContentResolver.insert(MovieProvider.MOVIES_URI, vValues, null);
-                    }*/
                 } else {
                     try {
                         callback.onMovieFetched(true, null, response.code(), response.errorBody().string());
@@ -62,7 +53,7 @@ public class WebService {
             }
 
             @Override
-            public void onFailure(Call<List<Movie>> call, Throwable t) {
+            public void onFailure(Call<List<MoviePageResult>> call, Throwable t) {
                 callback.onMovieFetched(false, null, -1, t.getLocalizedMessage());
             }
 

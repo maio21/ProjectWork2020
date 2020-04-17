@@ -21,6 +21,7 @@ import com.example.projectwork2020.adapter.MovieAdapter;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.api.IWebServer;
 import com.example.projectwork2020.api.Movie;
+import com.example.projectwork2020.api.MoviePageResult;
 import com.example.projectwork2020.api.WebService;
 import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
@@ -36,15 +37,12 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
     private IWebServer webServerListener = new IWebServer() {
         @Override
-        public void onMovieFetched(boolean success, List<Movie> movies, int errorCode, String errorMessage) {
+        public void onMovieFetched(boolean success, List<MoviePageResult> movies, int errorCode, String errorMessage) {
               if(success){
                   ContentValues vValues = new ContentValues();
                   for (int i = 0; i<movies.size(); i++) {
-                      vValues.put(MovieTableHelper.TITOLO, movies.get(i).getTitle());
-                      vValues.put(MovieTableHelper.DESCRIZIONE, movies.get(i).getOverview());
                       vValues.put(MovieTableHelper.PAGINA, movies.get(i).getPage());
-                      vValues.put(MovieTableHelper.IMG_COPERTINA, movies.get(i).getBackdrop_path());
-                      vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.get(i).getPoster_path());
+                      vValues.put(MovieTableHelper.TITOLO, movies.get(i).getMovieResult().get(i).getTitle());
                       getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
                   }
               }  else {
