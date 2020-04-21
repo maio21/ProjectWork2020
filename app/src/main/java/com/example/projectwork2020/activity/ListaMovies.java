@@ -38,24 +38,14 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
     private IWebServer webServerListener = new IWebServer() {
         @Override
-        public void onMovieFetched(boolean success, List<MoviePageResult> movies, int errorCode, String errorMessage) {
+        public void onMovieFetched(boolean success, MoviePageResult movies, int errorCode, String errorMessage) {
               if(success){
-                  ContentValues vValues = new ContentValues();
-                  for (int i = 0; i<movies.size(); i++) {
-                      vValues.put(MovieTableHelper.PAGINA, movies.get(i).getPage());
-                      for(int j = 0; j<movies.get(i).getMovieResult().size(); j++){
-                          vValues.put(MovieTableHelper.TITOLO, movies.get(i).getMovieResult().get(j).getTitle());
-                          vValues.put(MovieTableHelper.DESCRIZIONE, movies.get(i).getMovieResult().get(j).getOverview());
-                          vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.get(i).getMovieResult().get(j).getBackdrop_path());
-                          vValues.put(MovieTableHelper.IMG_COPERTINA, movies.get(i).getMovieResult().get(j).getPoster_path());
-                      }
-                      getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
 
-                      Log.d("asda", ""+ vValues);
-                  }
+                  Log.d("asda", ""+ movies.getPage());
+
               }  else {
                   Log.d("erroreAPI", errorMessage + " : " + errorCode);
-                  aggiornaListaFilm();
+                  //aggiornaListaFilm();
               }
         }
     };

@@ -37,7 +37,7 @@ public class WebService {
             @Override
             public void onResponse(Call<MoviePageResult> call, Response<MoviePageResult> response) {
                 if (response.code() == 200) {
-                    callback.onMovieFetched(true, (List<MoviePageResult>) response.body(), -1, null);
+                    callback.onMovieFetched(true,  response.body(), -1, null);
                 } else {
                     try {
                         callback.onMovieFetched(true, null, response.code(), response.errorBody().string());
