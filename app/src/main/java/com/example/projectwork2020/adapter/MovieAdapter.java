@@ -41,6 +41,12 @@ public class MovieAdapter extends CursorAdapter {
 
         //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
 
+
+        if(cursor.isAfterLast())
+        {
+            return;
+        }
+
         Log.d("id",""+cursor.getPosition());
         if(cursor.getPosition() > 0)
         {
@@ -51,6 +57,10 @@ public class MovieAdapter extends CursorAdapter {
                 if(cursor.getCount() != i)
                 {
                     cursor.moveToNext();
+                }
+                else
+                {
+                    break;
                 }
             }
 

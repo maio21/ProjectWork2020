@@ -48,6 +48,7 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
                        vValues.put(MovieTableHelper.DESCRIZIONE, movies.getMovieResult().get(i).getOverview());
                        vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
                        vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
+
                        getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
 
                    }
