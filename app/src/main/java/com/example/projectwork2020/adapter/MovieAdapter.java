@@ -40,19 +40,21 @@ public class MovieAdapter extends CursorAdapter {
         final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
 
         //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+
         Log.d("id",""+cursor.getPosition());
-        /*if(cursor.getPosition() % 2 == 0)
+        if(cursor.getPosition() > 0)
         {
-            Glide.with(context)
-                    .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                    .into(vImmagine1);
+            int i = cursor.getPosition();
+            for(int j = 0; j < i; j++)
+            {
+                //size cursor con la posizione corrente
+                if(cursor.getCount() != i)
+                {
+                    cursor.moveToNext();
+                }
+            }
+
         }
-        else
-        {
-            Glide.with(context)
-                    .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                    .into(vImmagine2);
-        }*/
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
