@@ -40,7 +40,7 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         @Override
         public void onMovieFetched(boolean success, MoviePageResult movies, int errorCode, String errorMessage) {
               if(success){
-
+                   //prova
                   Log.d("asda", ""+ movies.getPage());
 
               }  else {
