@@ -46,8 +46,8 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
                        vValues.put(MovieTableHelper.PAGINA, movies.getPage());
                        vValues.put(MovieTableHelper.TITOLO, movies.getMovieResult().get(i).getTitle());
                        vValues.put(MovieTableHelper.DESCRIZIONE, movies.getMovieResult().get(i).getOverview());
-                       vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getBackdrop_path());
-                       vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getPoster_path());
+                       vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
+                       vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
                        getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
 
                    }
@@ -67,9 +67,7 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
         // chiamata al Web Service
         webService = WebService.getInstance();
-        Log.d("asdaNO", "no");
         webService.getMovie(webServerListener);
-        Log.d("asdaSI", "si");
 
         mList = findViewById(R.id.listViewFilm);
 

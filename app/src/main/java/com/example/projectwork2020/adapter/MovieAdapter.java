@@ -40,8 +40,11 @@ public class MovieAdapter extends CursorAdapter {
 
 
 
-        Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine1);
-        vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+        //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+        Glide.with(context)
+                .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                .into(vImmagine1);
+
         cursor.moveToNext();
         if(cursor.isAfterLast())
         {
@@ -49,8 +52,10 @@ public class MovieAdapter extends CursorAdapter {
         }
         else
         {
-            Glide.with(context).load(cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA))).into(vImmagine2);
-            vImmagine2.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+           // vImmagine2.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+            Glide.with(context)
+                    .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                    .into(vImmagine2);
         }
 
         vImmagine1.setOnClickListener(new View.OnClickListener() {
