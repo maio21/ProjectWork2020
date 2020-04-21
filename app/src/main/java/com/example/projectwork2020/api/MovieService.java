@@ -4,9 +4,10 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface MovieService {
-    @GET("popular?api_key=cf42789ae5319df7aa57aaa0dd6473df")
-    Call<List<MoviePageResult>> getMovie();
+    @GET("movie/popular")
+    Call<MoviePageResult> getMovie(@Query("api_key") String apiKey);
 
 }

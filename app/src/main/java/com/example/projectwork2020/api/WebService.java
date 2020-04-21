@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WebService {
 
-    private String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie/";
+    private String MOVIE_BASE_URL = "https://api.themoviedb.org/3/";
     private static WebService instance;
     private MovieService movieService;
 
@@ -32,12 +32,12 @@ public class WebService {
         return instance;
     }
     public void getMovie(final IWebServer callback) {
-        Call<List<MoviePageResult>> moviesRequest = movieService.getMovie();
-        moviesRequest.enqueue(new Callback<List<MoviePageResult>>() {
+        Call<MoviePageResult> moviesRequest = movieService.getMovie("cf42789ae5319df7aa57aaa0dd6473df");
+        moviesRequest.enqueue(new Callback<MoviePageResult>() {
             @Override
-            public void onResponse(Call<List<MoviePageResult>> call, Response<List<MoviePageResult>> response) {
+            public void onResponse(Call<MoviePageResult> call, Response<MoviePageResult> response) {
                 if (response.code() == 200) {
-                    callback.onMovieFetched(true, response.body(), -1, null);
+                    callback.onMovieFetched(true, (List<MoviePageResult>) response.body(), -1, null);
                 } else {
                     try {
                         callback.onMovieFetched(true, null, response.code(), response.errorBody().string());
@@ -49,7 +49,7 @@ public class WebService {
             }
 
             @Override
-            public void onFailure(Call<List<MoviePageResult>> call, Throwable t) {
+            public void onFailure(Call<MoviePageResult> call, Throwable t) {
                 callback.onMovieFetched(false, null, -1, t.getLocalizedMessage());
             }
 
