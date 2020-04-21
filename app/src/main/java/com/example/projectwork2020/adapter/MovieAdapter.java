@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,26 +39,39 @@ public class MovieAdapter extends CursorAdapter {
         final ImageView vImmagine1 = view.findViewById(R.id.imageView);
         final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
 
-
-
         //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+        Log.d("id",""+cursor.getPosition());
+        /*if(cursor.getPosition() % 2 == 0)
+        {
+            Glide.with(context)
+                    .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                    .into(vImmagine1);
+        }
+        else
+        {
+            Glide.with(context)
+                    .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                    .into(vImmagine2);
+        }*/
+
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                 .into(vImmagine1);
-
         cursor.moveToNext();
+
         if(cursor.isAfterLast())
         {
             return;
         }
         else
         {
-           // vImmagine2.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
             Glide.with(context)
                     .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                     .into(vImmagine2);
         }
 
+
+/*
         vImmagine1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +95,6 @@ public class MovieAdapter extends CursorAdapter {
                 context.startActivity(vIntent);
             }
         });
-
+*/
     }
 }
