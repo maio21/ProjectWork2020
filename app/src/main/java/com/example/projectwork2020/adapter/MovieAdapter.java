@@ -38,9 +38,7 @@ public class MovieAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, Cursor cursor) {
         final ImageView vImmagine1 = view.findViewById(R.id.imageView);
         final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
-
         //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
-
         Log.d("id",""+cursor.getCount());
 
         if(cursor.getPosition() > 0)
@@ -53,7 +51,6 @@ public class MovieAdapter extends CursorAdapter {
                     cursor.moveToNext();
                 }
             }
-
 
             Glide.with(context)
                     .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
@@ -71,35 +68,8 @@ public class MovieAdapter extends CursorAdapter {
                         .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                         .into(vImmagine2);
             }
-
-
-
         }
-/*
-        vImmagine1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int vId = Integer.parseInt((String) vImmagine1.getTag());
-                Intent vIntent = new Intent();
-                Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", vId);
-                vIntent.putExtras(vIntent);
-                context.startActivity(vIntent);
-            }
-        });
 
-        vImmagine2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int vId = Integer.parseInt((String) vImmagine2.getTag());
-                Intent vIntent = new Intent();
-                Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", vId);
-                vIntent.putExtras(vIntent);
-                context.startActivity(vIntent);
-            }
-        });
-*/
     }
 
     @Override
