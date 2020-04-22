@@ -41,43 +41,32 @@ public class MovieAdapter extends CursorAdapter {
         //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
         Log.d("id",""+cursor.getCount());
 
-        if(cursor.getPosition() > 0)
-        {
-            int i = cursor.getPosition();
-            for(int j = 0; j < i; j++)
-            {
-                if(cursor.getCount() != i)
-                {
-                    cursor.moveToNext();
-                }
-            }
+       int cursorPosition = cursor.getPosition() * 2;
+
+       if(cursorPosition >= cursor.getCount())
+           return;
+
+
+       cursor.moveToPosition(cursorPosition);
+
+       Glide.with(context)
+                .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                .into(vImmagine1);
+
+       if(cursorPosition + 1 >= cursor.getCount())
+           return;
+
+       cursor.moveToPosition(cursorPosition + 1);
 
             Glide.with(context)
-                    .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                    .into(vImmagine1);
+                    .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                    .into(vImmagine2);
 
-            cursor.moveToNext();
-
-            if(cursor.isAfterLast())
-            {
-                return;
-            }
-            else
-            {
-                Glide.with(context)
-                        .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                        .into(vImmagine2);
-            }
-        }
 
     }
 
     @Override
     public int getCount() {
-        if (getCursor().getCount()%2 == 0){
-            return getCursor().getCount()/2;
-        } else {
-            return getCursor().getCount()/2+1;
-        }
+        return (getCursor().getCount() % 2 == 0)? getCursor().getCount()/2: getCursor().getCount()/2+1;
     }
 }
