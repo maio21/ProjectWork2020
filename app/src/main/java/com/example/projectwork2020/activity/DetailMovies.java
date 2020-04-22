@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class DetailMovies extends AppCompatActivity {
         mTitolo = findViewById(R.id.textViewTitolo);
         mDescrizione = findViewById(R.id.textViewDescrizione);
         mImmagine = findViewById(R.id.imageView3);
+
+        mDescrizione.setMovementMethod(new ScrollingMovementMethod());
 
         if(getIntent().getExtras() != null)
         {
