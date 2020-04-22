@@ -13,6 +13,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork2020.R;
@@ -38,7 +39,9 @@ public class MovieAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, Cursor cursor) {
         final ImageView vImmagine1 = view.findViewById(R.id.imageView);
         final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
-        //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
+        final int vId1, vId2;
+
+
         int cursorPosition = cursor.getPosition() * 2;
 
         if(cursorPosition >= cursor.getCount())
@@ -46,30 +49,47 @@ public class MovieAdapter extends CursorAdapter {
 
         cursor.moveToPosition(cursorPosition);
 
+        vId1 = cursorPosition;
         Glide.with(context)
-                  .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                  .into(vImmagine1);
+                .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                .into(vImmagine1);
+
 
         if(cursorPosition + 1 >= cursor.getCount())
             return;
 
         cursor.moveToPosition(cursorPosition + 1);
 
+        vId2 = cursorPosition;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                 .into(vImmagine2);
 
+
+
         vImmagine1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, DetailMovies.class));
+                Bundle vBundle = new Bundle();
+                vBundle.putInt("_ID", vId1);
+                Log.d("id", String.valueOf(vId2));
+                Intent vIntent = new Intent(context, DetailMovies.class);
+                vIntent.putExtras(vBundle);
+                view.getContext().startActivity(vIntent);
+                //view.getContext().startActivity(new Intent(context, DetailMovies.class));
             }
         });
 
         vImmagine2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, DetailMovies.class));
+                Bundle vBundle = new Bundle();
+                vBundle.putInt("_ID", vId2);
+                Log.d("id", String.valueOf(vId2));
+                Intent vIntent = new Intent(context, DetailMovies.class);
+                vIntent.putExtras(vBundle);
+                view.getContext().startActivity(vIntent);
+                //view.getContext().startActivity(new Intent(context, DetailMovies.class));
             }
         });
 
