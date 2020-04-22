@@ -40,25 +40,30 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
     private IWebServer webServerListener = new IWebServer() {
         @Override
         public void onMovieFetched(boolean success, MoviePageResult movies, int errorCode, String errorMessage) {
-              if(success){
-                   for(int i = 0; i < movies.getMovieResult().size(); i++)
-                   {
-                       ContentValues vValues = new ContentValues();
-                       vValues.put(MovieTableHelper.PAGINA, movies.getPage());
-                       vValues.put(MovieTableHelper.TITOLO, movies.getMovieResult().get(i).getTitle());
-                       vValues.put(MovieTableHelper.DESCRIZIONE, movies.getMovieResult().get(i).getOverview());
-                       vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
-                       vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
+            Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null);
+            if(vCursor.getCount() == 0) {
+                Log.d("success", "funge");
+                if (success) {
+                    for (int i = 0; i < movies.getMovieResult().size(); i++) {
+                        ContentValues vValues = new ContentValues();
+                        vValues.put(MovieTableHelper.PAGINA, movies.getPage());
+                        vValues.put(MovieTableHelper.TITOLO, movies.getMovieResult().get(i).getTitle());
+                        vValues.put(MovieTableHelper.DESCRIZIONE, movies.getMovieResult().get(i).getOverview());
+                        vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
+                        vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
 
-                       getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
+                        getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
+                    }
+                    Log.d("asda", "" + movies.getPage());
 
-                   }
-                  Log.d("asda", ""+ movies.getPage());
-
-              }  else {
-                  Log.d("erroreAPI", errorMessage + " : " + errorCode);
-                  //aggiornaListaFilm();
-              }
+                } else {
+                    Log.d("erroreAPI", errorMessage + " : " + errorCode);
+                    aggiornaListaFilm();
+                }
+            } else {
+                Log.d("failure", "non funge");
+                aggiornaListaFilm();
+            }
         }
     };
 
