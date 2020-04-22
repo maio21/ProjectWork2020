@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".activity.DetailMovies"/>
+        <activity android:name=".activity.DetailMovies" android:parentActivityName=".activity.ListaMovies"></activity>
         <provider
             android:name="com.example.projectwork2020.data.MovieProvider"
             android:authorities="com.example.projectwork2020.data.MovieProvider" />

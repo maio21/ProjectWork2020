@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
@@ -23,6 +24,7 @@ public class DetailMovies extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movies);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mTitolo = findViewById(R.id.textViewTitolo);
         mDescrizione = findViewById(R.id.textViewDescrizione);
@@ -40,6 +42,8 @@ public class DetailMovies extends AppCompatActivity {
 
             mTitolo.setText(vTitolo);
             mDescrizione.setText(vDescrizione);
+            //Glide.with(DetailMovies.this).load(vImmagine).apply(new RequestOptions().override(1000, 200)).into(mImmagine);
+            Glide.with(DetailMovies.this).load(vImmagine).override(1000, 400).fitCenter().into(mImmagine);
             Glide.with(DetailMovies.this).load(vImmagine).into(mImmagine);
         }
     }
