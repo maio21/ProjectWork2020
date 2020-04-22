@@ -106,4 +106,6 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         mAdapter.changeCursor(null);
     }
 
+
+
 }
