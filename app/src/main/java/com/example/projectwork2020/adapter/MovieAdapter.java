@@ -60,7 +60,7 @@ public class MovieAdapter extends CursorAdapter {
 
         cursor.moveToPosition(cursorPosition + 1);
 
-        vId2 = cursorPosition;
+        vId2 = vId1 + 1;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                 .into(vImmagine2);
@@ -72,7 +72,9 @@ public class MovieAdapter extends CursorAdapter {
             public void onClick(View view) {
                 Bundle vBundle = new Bundle();
                 vBundle.putInt("_ID", vId1);
-                Log.d("id", String.valueOf(vId2));
+
+                Log.d("id", String.valueOf(vId1));
+
                 Intent vIntent = new Intent(context, DetailMovies.class);
                 vIntent.putExtras(vBundle);
                 view.getContext().startActivity(vIntent);
@@ -85,7 +87,9 @@ public class MovieAdapter extends CursorAdapter {
             public void onClick(View view) {
                 Bundle vBundle = new Bundle();
                 vBundle.putInt("_ID", vId2);
+
                 Log.d("id", String.valueOf(vId2));
+
                 Intent vIntent = new Intent(context, DetailMovies.class);
                 vIntent.putExtras(vBundle);
                 view.getContext().startActivity(vIntent);
