@@ -67,6 +67,11 @@ public class MovieAdapter extends CursorAdapter {
 
     @Override
     public int getCount() {
-        return (getCursor().getCount() % 2 == 0)? getCursor().getCount()/2: getCursor().getCount()/2+1;
+        if(getCursor()!= null)
+            return (getCursor().getCount() % 2 == 0)? getCursor().getCount()/2: getCursor().getCount()/2+1;
+        else
+            return 0;
+
     }
+
 }
