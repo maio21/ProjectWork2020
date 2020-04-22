@@ -39,28 +39,39 @@ public class MovieAdapter extends CursorAdapter {
         final ImageView vImmagine1 = view.findViewById(R.id.imageView);
         final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
         //vImmagine1.setTag(cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID)));
-        Log.d("id",""+cursor.getCount());
+        int cursorPosition = cursor.getPosition() * 2;
 
-       int cursorPosition = cursor.getPosition() * 2;
+        if(cursorPosition >= cursor.getCount())
+            return;
 
-       if(cursorPosition >= cursor.getCount())
-           return;
+        cursor.moveToPosition(cursorPosition);
 
+        Glide.with(context)
+                  .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                  .into(vImmagine1);
 
-       cursor.moveToPosition(cursorPosition);
+        if(cursorPosition + 1 >= cursor.getCount())
+            return;
 
-       Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                .into(vImmagine1);
+        cursor.moveToPosition(cursorPosition + 1);
 
-       if(cursorPosition + 1 >= cursor.getCount())
-           return;
+        Glide.with(context)
+                .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                .into(vImmagine2);
 
-       cursor.moveToPosition(cursorPosition + 1);
+        vImmagine1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(new Intent(context, DetailMovies.class));
+            }
+        });
 
-            Glide.with(context)
-                    .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                    .into(vImmagine2);
+        vImmagine2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(new Intent(context, DetailMovies.class));
+            }
+        });
 
 
     }
@@ -71,7 +82,6 @@ public class MovieAdapter extends CursorAdapter {
             return (getCursor().getCount() % 2 == 0)? getCursor().getCount()/2: getCursor().getCount()/2+1;
         else
             return 0;
-
     }
 
 }

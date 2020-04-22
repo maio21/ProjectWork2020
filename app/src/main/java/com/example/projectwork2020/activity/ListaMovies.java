@@ -17,6 +17,7 @@ import android.view.animation.GridLayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.projectwork2020.adapter.MovieAdapter;
 import com.example.projectwork2020.R;
@@ -72,19 +73,6 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
         mList = findViewById(R.id.listViewFilm);
 
-        
-//        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent vIntent = new Intent(ListaMovies.this, DetailMovies.class);
-//                Bundle vBundle = new Bundle();
-//                vBundle.putInt("_ID", (int) l);
-//
-//                vIntent.putExtras(vBundle);
-//                startActivity(vIntent);
-//            }
-//        });
-        
         aggiornaListaFilm();
     }
 
