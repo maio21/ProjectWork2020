@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.GridLayoutAnimationController;
@@ -80,14 +81,19 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
 
         webService = WebService.getInstance();
 
-        if (haveNetwork()){
+        if (isNetworkAvailable()){
             Toast.makeText(ListaMovies.this, "Network connection is available", Toast.LENGTH_SHORT).show();
             webService.getMovie(webServerListener);
-        } else if (!haveNetwork()) {
+        } else if (!isNetworkAvailable()) {
             Toast.makeText(ListaMovies.this, "Network connection is not available", Toast.LENGTH_SHORT).show();
+            aggiornaListaFilm();
+        }
+        if (isAirplaneModeOn(ListaMovies.this)){
+            Toast.makeText(ListaMovies.this, "Airplane mode is activated you dumb bitch", Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
     private void aggiornaListaFilm() {
         mAdapter = new MovieAdapter(this, null);
@@ -114,7 +120,7 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         mAdapter.changeCursor(null);
     }
 
-    private boolean haveNetwork(){
+    private boolean isNetworkAvailable(){
         boolean have_WIFI= false;
         boolean have_MobileData = false;
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
@@ -124,6 +130,11 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
             if (info.getTypeName().equalsIgnoreCase("MOBILE DATA"))if (info.isConnected())have_MobileData=true;
         }
         return have_WIFI||have_MobileData;
+    }
+
+    private static boolean isAirplaneModeOn(Context context) {
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 
 }
