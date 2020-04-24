@@ -28,6 +28,7 @@ import com.example.projectwork2020.api.WebService;
 import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
 import com.example.projectwork2020.fragment.AirPlaneDialog;
+import com.example.projectwork2020.fragment.OfflineDialog;
 
 public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAirPlaneDialog, LoaderManager.LoaderCallbacks<Cursor> {
     
@@ -79,8 +80,18 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         if (isNetworkAvailable()){
             webService.getMovie(webServerListener);
         } else if (!isNetworkAvailable()) {
-            Toast.makeText(ListaMovies.this, "ATTENZIONE!1!! nessuna connesione", Toast.LENGTH_LONG).show();
-            aggiornaListaFilm();
+            Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null);
+            if(vCursor.getCount() == 0)
+            {
+                OfflineDialog vDialog = new OfflineDialog();
+                vDialog.show(getSupportFragmentManager(), null);
+            }
+            else
+            {
+                Toast.makeText(ListaMovies.this, "ATTENZIONE!1!! nessuna connesione", Toast.LENGTH_LONG).show();
+                aggiornaListaFilm();
+            }
+
         }
         if (isAirplaneModeOn(ListaMovies.this)){
             AirPlaneDialog vDialog =
