@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -60,7 +61,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
                     aggiornaListaFilm();
                 }
             } else {
-                Log.d("failure", "non funge");
+                // arriva qui se il database è già stato popolato
                 aggiornaListaFilm();
             }
         }
@@ -70,6 +71,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_movies);
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         mList = findViewById(R.id.listViewFilm);
 
         webService = WebService.getInstance();
@@ -87,6 +89,14 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             vDialog.show(getSupportFragmentManager(), null);
 
         }
+
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                webService.getMovie(webServerListener);
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
     }
 
