@@ -77,7 +77,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         if (isNetworkAvailable()){
             webService.getMovie(webServerListener);
         } else if (!isNetworkAvailable()) {
-            Toast.makeText(ListaMovies.this, "Network connection is not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ListaMovies.this, "ATTENZIONE!1!! nessuna connesione", Toast.LENGTH_LONG).show();
             aggiornaListaFilm();
         }
         if (isAirplaneModeOn(ListaMovies.this)){
