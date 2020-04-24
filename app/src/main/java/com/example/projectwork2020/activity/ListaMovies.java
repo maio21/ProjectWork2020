@@ -72,6 +72,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_movies);
+        getSupportActionBar().setTitle("Movies");
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         mList = findViewById(R.id.listViewFilm);
         mList.setDivider(null);
