@@ -74,7 +74,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         setContentView(R.layout.activity_lista_movies);
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         mList = findViewById(R.id.listViewFilm);
-
+        mList.setDivider(null);
         webService = WebService.getInstance();
 
         if (isNetworkAvailable()){
