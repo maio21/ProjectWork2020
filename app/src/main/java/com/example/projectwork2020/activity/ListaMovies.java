@@ -31,6 +31,7 @@ import com.example.projectwork2020.api.WebService;
 import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
 
+import java.net.InetAddress;
 import java.util.List;
 
 public class ListaMovies extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -58,6 +59,7 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
                         getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
                     }
                     Log.d("asda", "" + movies.getPage());
+                    aggiornaListaFilm();
 
                 } else {
                     Log.d("erroreAPI", errorMessage + " : " + errorCode);
@@ -74,19 +76,17 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_movies);
-
-        //controllo connessione
-        if(isNetworkAvailable() == false){
-            Toast.makeText(this,"WE WE vecio mio , sei offline , attacca il wifi e riavvia", Toast.LENGTH_SHORT);
-        }
-
-        // chiamata al Web Service
-        webService = WebService.getInstance();
-        webService.getMovie(webServerListener);
-
         mList = findViewById(R.id.listViewFilm);
 
-        aggiornaListaFilm();
+        webService = WebService.getInstance();
+
+        if (haveNetwork()){
+            Toast.makeText(ListaMovies.this, "Network connection is available", Toast.LENGTH_SHORT).show();
+            webService.getMovie(webServerListener);
+        } else if (!haveNetwork()) {
+            Toast.makeText(ListaMovies.this, "Network connection is not available", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void aggiornaListaFilm() {
@@ -114,11 +114,16 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         mAdapter.changeCursor(null);
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    private boolean haveNetwork(){
+        boolean have_WIFI= false;
+        boolean have_MobileData = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
+        for(NetworkInfo info:networkInfos){
+            if (info.getTypeName().equalsIgnoreCase("WIFI"))if (info.isConnected())have_WIFI=true;
+            if (info.getTypeName().equalsIgnoreCase("MOBILE DATA"))if (info.isConnected())have_MobileData=true;
+        }
+        return have_WIFI||have_MobileData;
     }
 
 }
