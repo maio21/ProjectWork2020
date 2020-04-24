@@ -8,8 +8,11 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,6 +75,11 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_movies);
 
+        //controllo connessione
+        if(isNetworkAvailable() == false){
+            Toast.makeText(this,"WE WE vecio mio , sei offline , attacca il wifi e riavvia", Toast.LENGTH_SHORT);
+        }
+
         // chiamata al Web Service
         webService = WebService.getInstance();
         webService.getMovie(webServerListener);
@@ -106,6 +114,11 @@ public class ListaMovies extends AppCompatActivity implements LoaderManager.Load
         mAdapter.changeCursor(null);
     }
 
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 }
