@@ -16,27 +16,19 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.GridLayoutAnimationController;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.projectwork2020.adapter.MovieAdapter;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.api.IWebServer;
-import com.example.projectwork2020.api.Movie;
 import com.example.projectwork2020.api.MoviePageResult;
 import com.example.projectwork2020.api.WebService;
 import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
-import com.example.projectwork2020.fragment.AlertDialog;
+import com.example.projectwork2020.fragment.AirPlaneDialog;
 
-import java.net.InetAddress;
-import java.util.List;
-
-public class ListaMovies extends AppCompatActivity implements AlertDialog.IAlertDialog, LoaderManager.LoaderCallbacks<Cursor> {
+public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAirPlaneDialog, LoaderManager.LoaderCallbacks<Cursor> {
     
     ListView mList;
     MovieAdapter mAdapter;
@@ -83,15 +75,15 @@ public class ListaMovies extends AppCompatActivity implements AlertDialog.IAlert
         webService = WebService.getInstance();
 
         if (isNetworkAvailable()){
-            //Toast.makeText(ListaMovies.this, "Network connection is available", Toast.LENGTH_SHORT).show();
             webService.getMovie(webServerListener);
         } else if (!isNetworkAvailable()) {
             Toast.makeText(ListaMovies.this, "Network connection is not available", Toast.LENGTH_SHORT).show();
             aggiornaListaFilm();
         }
         if (isAirplaneModeOn(ListaMovies.this)){
-            Toast.makeText(ListaMovies.this, "Airplane mode is activated you dumb bitch", Toast.LENGTH_SHORT).show();
-            com.example.projectwork2020.fragment.AlertDialog vDialog = new AlertDialog("ATTENZIONE!", "La modalità aereo è attivata, potrai usare l'applicazione in modalità offline");
+            AirPlaneDialog vDialog =
+                    new AirPlaneDialog("ATTENZIONE!",
+                            "La modalità aereo è attivata, potrai usare l'applicazione in modalità offline.");
             vDialog.show(getSupportFragmentManager(), null);
 
         }
@@ -145,7 +137,8 @@ public class ListaMovies extends AppCompatActivity implements AlertDialog.IAlert
     public void onResponse(boolean aResponse) {
         if(aResponse)
         {
-
+            Intent intent=new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+            startActivity(intent);
         }
 
     }

@@ -9,21 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class AlertDialog extends DialogFragment {
+public class AirPlaneDialog extends DialogFragment {
     String mTitle, mMessage;
 
-    public AlertDialog(String aTitle, String aMessage)
+    public AirPlaneDialog(String aTitle, String aMessage)
     {
         mTitle = aTitle;
         mMessage = aMessage;
     }
 
-    public interface IAlertDialog
+    public interface IAirPlaneDialog
     {
         void onResponse(boolean aResponse);
     }
 
-    IAlertDialog mListener;
+    IAirPlaneDialog mListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,14 +36,14 @@ public class AlertDialog extends DialogFragment {
         android.app.AlertDialog.Builder vBuilder = new android.app.AlertDialog.Builder(getActivity());
         vBuilder.setTitle(mTitle)
                 .setMessage(mMessage)
-                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                .setPositiveButton("APRI IMPOSTAZIONI", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mListener.onResponse(true);
                         dismiss();
                     }
                 })
-                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                .setNegativeButton("RIMANI OFFLINE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mListener.onResponse(false);
@@ -56,9 +56,9 @@ public class AlertDialog extends DialogFragment {
     @Override
     public void onAttach(@NonNull Activity activity) {
         super.onAttach(activity);
-        if(activity instanceof IAlertDialog)
+        if(activity instanceof IAirPlaneDialog)
         {
-            mListener = (IAlertDialog) activity;
+            mListener = (IAirPlaneDialog) activity;
         }
     }
 }
