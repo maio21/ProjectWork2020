@@ -52,6 +52,7 @@ public class MovieAdapter extends CursorAdapter {
         vId1 = cursorPosition;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                .placeholder(R.drawable.placeholder)
                 .into(vImmagine1);
 
 
@@ -63,6 +64,7 @@ public class MovieAdapter extends CursorAdapter {
         vId2 = vId1 + 1;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                .placeholder(R.drawable.placeholder)
                 .into(vImmagine2);
 
 

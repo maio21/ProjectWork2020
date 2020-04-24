@@ -47,7 +47,7 @@ public class DetailMovies extends AppCompatActivity {
             mDescrizione.setText(vDescrizione);
             //Glide.with(DetailMovies.this).load(vImmagine).apply(new RequestOptions().override(1000, 200)).into(mImmagine);
             //Glide.with(DetailMovies.this).load(vImmagine).override(2000, 1000).centerCrop().into(mImmagine);
-            Glide.with(DetailMovies.this).load(vImmagine).into(mImmagine);
+            Glide.with(DetailMovies.this).load(vImmagine).placeholder(R.drawable.placeholder).into(mImmagine);
         }
     }
 }
