@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.projectwork2020.R;
 import com.example.projectwork2020.activity.DetailMovies;
 import com.example.projectwork2020.activity.ListaMovies;
@@ -52,7 +53,8 @@ public class MovieAdapter extends CursorAdapter {
         vId1 = cursorPosition;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder2)
+                .transform(new RoundedCorners(50))
                 .into(vImmagine1);
 
 
@@ -64,7 +66,8 @@ public class MovieAdapter extends CursorAdapter {
         vId2 = vId1 + 1;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder2)
+                .transform(new RoundedCorners(50))
                 .into(vImmagine2);
 
 
