@@ -89,7 +89,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             }
             else
             {
-                Toast.makeText(ListaMovies.this, "ATTENZIONE!1!! nessuna connesione", Toast.LENGTH_LONG).show();
+                Toast.makeText(ListaMovies.this, "ATTENZIONE! nessuna connesione", Toast.LENGTH_LONG).show();
                 aggiornaListaFilm();
             }
 
@@ -105,8 +105,14 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                webService.getMovie(webServerListener);
-                pullToRefresh.setRefreshing(false);
+                if(isNetworkAvailable()){
+                    webService.getMovie(webServerListener);
+                    pullToRefresh.setRefreshing(false);
+                } else {
+                    Toast.makeText(ListaMovies.this, "ATTENZIONE!! nessuna connesione", Toast.LENGTH_LONG).show();
+                    pullToRefresh.setRefreshing(false);
+                }
+
             }
         });
 
