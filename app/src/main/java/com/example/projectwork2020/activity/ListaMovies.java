@@ -17,7 +17,11 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
+
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.projectwork2020.adapter.MovieAdapter;
@@ -169,5 +173,28 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             startActivity(intent);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_icon);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Cerca film");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String movieTitle) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String movieTitle) {
+                // query con like '%movieTitle'
+                return true;
+            }
+        });
+
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
