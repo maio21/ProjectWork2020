@@ -8,6 +8,7 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
+import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 
 import android.widget.SearchView;
@@ -81,7 +84,35 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         mList = findViewById(R.id.listViewFilm);
         mList.setDivider(null);
         webService = WebService.getInstance();
+        controlloInternet();
+        mAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                return getCursor(constraint.toString());
+            }
+        });
 
+
+
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(isNetworkAvailable()){
+                    webService.getMovie(webServerListener);
+                    pullToRefresh.setRefreshing(false);
+                } else {
+                    Toast.makeText(ListaMovies.this, "ATTENZIONE!! nessuna connesione", Toast.LENGTH_LONG).show();
+                    pullToRefresh.setRefreshing(false);
+                }
+
+            }
+        });
+
+    }
+
+
+    private void controlloInternet()
+    {
         if (isNetworkAvailable()){
             webService.getMovie(webServerListener);
         } else if (!isNetworkAvailable()) {
@@ -105,23 +136,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             vDialog.show(getSupportFragmentManager(), null);
 
         }
-
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if(isNetworkAvailable()){
-                    webService.getMovie(webServerListener);
-                    pullToRefresh.setRefreshing(false);
-                } else {
-                    Toast.makeText(ListaMovies.this, "ATTENZIONE!! nessuna connesione", Toast.LENGTH_LONG).show();
-                    pullToRefresh.setRefreshing(false);
-                }
-
-            }
-        });
-
     }
-
 
     private void aggiornaListaFilm() {
         mAdapter = new MovieAdapter(this, null);
@@ -178,23 +193,39 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_menu, menu);
+        SearchManager vSearchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem menuItem = menu.findItem(R.id.search_icon);
         SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setSearchableInfo(vSearchManager.getSearchableInfo(getComponentName()));
         searchView.setQueryHint("Cerca film");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        SearchView.OnQueryTextListener vTextChangeListener = new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String movieTitle) {
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String movieTitle) {
-                // query con like '%movieTitle'
-                return true;
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
             }
-        });
+        };
 
-
+        searchView.setOnQueryTextListener(vTextChangeListener);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private Cursor getCursor(String aStr)
+    {
+        Cursor vCursor = null;
+        if(aStr == null || aStr.length() == 0)
+            aggiornaListaFilm();
+        else
+            vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, MovieTableHelper.TITOLO + " LIKE '%" + aStr + "%'", null, null);
+
+        if(vCursor != null)
+            vCursor.moveToFirst();
+
+        return vCursor;
     }
 }
