@@ -84,16 +84,10 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         mList = findViewById(R.id.listViewFilm);
         mList.setDivider(null);
         webService = WebService.getInstance();
+
         mAdapter = new MovieAdapter(this, null);
+
         controlloInternet();
-        mAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            @Override
-            public Cursor runQuery(CharSequence constraint) {
-                return getCursor(constraint.toString());
-            }
-        });
-
-
 
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -194,39 +188,20 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_menu, menu);
-        SearchManager vSearchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem menuItem = menu.findItem(R.id.search_icon);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setSearchableInfo(vSearchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint("Cerca film");
-        SearchView.OnQueryTextListener vTextChangeListener = new SearchView.OnQueryTextListener() {
+        MenuItem item = menu.findItem(R.id.search_icon);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String movieTitle) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                mAdapter.getFilter().filter(newText);
+            public boolean onQueryTextChange(String movieTitle) {
+                mAdapter.getFilter().filter(movieTitle);
                 return true;
             }
-        };
-
-        searchView.setOnQueryTextListener(vTextChangeListener);
+        });
         return super.onCreateOptionsMenu(menu);
-    }
-
-    private Cursor getCursor(String aStr)
-    {
-        Cursor vCursor = null;
-        if(aStr == null || aStr.length() == 0)
-            aggiornaListaFilm();
-        else
-            vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, MovieTableHelper.TITOLO + " LIKE '%" + aStr + "%'", null, null);
-
-        if(vCursor != null)
-            vCursor.moveToFirst();
-
-        return vCursor;
     }
 }

@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.Filter;
+import android.widget.FilterQueryProvider;
+import android.widget.Filterable;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,11 +26,13 @@ import com.example.projectwork2020.activity.ListaMovies;
 import com.example.projectwork2020.data.MovieProvider;
 import com.example.projectwork2020.data.MovieTableHelper;
 
-public class MovieAdapter extends CursorAdapter {
+public class MovieAdapter extends CursorAdapter implements Filterable {
 
+    private Context context;
 
     public MovieAdapter(Context context, Cursor c) {
         super(context, c);
+        this.context = context;
     }
 
     @Override
@@ -58,8 +63,13 @@ public class MovieAdapter extends CursorAdapter {
                 .into(vImmagine1);
 
 
-        if(cursorPosition + 1 >= cursor.getCount())
+        if(cursorPosition + 1 >= cursor.getCount()) {
+            vImmagine2.setImageDrawable(null);
+            vImmagine2.setVisibility(View.GONE);
             return;
+        } else {
+            vImmagine2.setVisibility(View.VISIBLE);
+        }
 
         cursor.moveToPosition(cursorPosition + 1);
 
@@ -113,4 +123,39 @@ public class MovieAdapter extends CursorAdapter {
             return 0;
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            FilterResults filterResults = new FilterResults();
+            if(charSequence.toString().isEmpty()){
+                // gna so io
+            } else {
+                filterResults.values = getFilterQueryProvider().runQuery(charSequence);
+            }
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            changeCursor((Cursor) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public FilterQueryProvider getFilterQueryProvider() {
+        return new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence charSequence) {
+                return context.getContentResolver().query(MovieProvider.MOVIES_URI, null,
+                        MovieTableHelper.TITOLO + " LIKE '%" + charSequence.toString() + "%'", null, null);
+
+            }
+        };
+    }
 }
