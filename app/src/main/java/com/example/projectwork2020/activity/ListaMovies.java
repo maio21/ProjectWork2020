@@ -84,6 +84,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         mList = findViewById(R.id.listViewFilm);
         mList.setDivider(null);
         webService = WebService.getInstance();
+        mAdapter = new MovieAdapter(this, null);
         controlloInternet();
         mAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
@@ -139,7 +140,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     }
 
     private void aggiornaListaFilm() {
-        mAdapter = new MovieAdapter(this, null);
+
         mList.setAdapter(mAdapter);
 
         getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
@@ -207,7 +208,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             @Override
             public boolean onQueryTextChange(String newText) {
                 mAdapter.getFilter().filter(newText);
-                return false;
+                return true;
             }
         };
 
