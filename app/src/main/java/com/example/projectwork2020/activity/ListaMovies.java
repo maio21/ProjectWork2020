@@ -3,6 +3,7 @@ package com.example.projectwork2020.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -24,7 +25,7 @@ import android.widget.Adapter;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 
-import android.widget.SearchView;
+
 import android.widget.Toast;
 
 import com.example.projectwork2020.adapter.MovieAdapter;
