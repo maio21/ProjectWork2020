@@ -133,7 +133,7 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults filterResults = new FilterResults();
             if(charSequence.toString().isEmpty()){
-                // gna so io
+                filterResults.values = getFilterQueryProvider().runQuery("");
             } else {
                 filterResults.values = getFilterQueryProvider().runQuery(charSequence);
             }
@@ -146,6 +146,11 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
             notifyDataSetChanged();
         }
     };
+
+    @Override
+    public void changeCursor(Cursor cursor) {
+       swapCursor(cursor);
+    }
 
     @Override
     public FilterQueryProvider getFilterQueryProvider() {

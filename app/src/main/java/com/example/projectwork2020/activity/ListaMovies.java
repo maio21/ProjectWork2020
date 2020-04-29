@@ -136,7 +136,6 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     private void aggiornaListaFilm() {
 
         mList.setAdapter(mAdapter);
-
         getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
 
     }
@@ -193,7 +192,8 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String movieTitle) {
-                return false;
+                mAdapter.getFilter().filter(movieTitle);
+                return true;
             }
 
             @Override
