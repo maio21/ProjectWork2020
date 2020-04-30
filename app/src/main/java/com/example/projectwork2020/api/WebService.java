@@ -31,8 +31,8 @@ public class WebService {
             instance = new WebService();
         return instance;
     }
-    public void getMovie(final IWebServer callback) {
-        Call<MoviePageResult> moviesRequest = movieService.getMovie("cf42789ae5319df7aa57aaa0dd6473df");
+    public void getMovie(final IWebServer callback, int movie) {
+        Call<MoviePageResult> moviesRequest = movieService.getMovie("cf42789ae5319df7aa57aaa0dd6473df", movie);
         moviesRequest.enqueue(new Callback<MoviePageResult>() {
             @Override
             public void onResponse(Call<MoviePageResult> call, Response<MoviePageResult> response) {

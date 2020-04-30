@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MovieService {
-    @GET("movie/popular")
-    Call<MoviePageResult> getMovie(@Query("api_key") String apiKey);
+    @GET("discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false")
+    Call<MoviePageResult> getMovie(@Query("api_key") String apiKey, @Query("page") int page);
 
 }

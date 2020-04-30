@@ -37,7 +37,7 @@ public class DetailMovies extends AppCompatActivity {
         if(getIntent().getExtras() != null)
         {
             mId = getIntent().getExtras().getInt("_ID");
-            mId ++;
+            //mId ++;
             Cursor vCursor = getContentResolver().query(Uri.parse(MovieProvider.MOVIES_URI + "/" + mId), null, null, null);
             vCursor.moveToNext();
             String vTitolo = vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.TITOLO));

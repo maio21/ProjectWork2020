@@ -42,25 +42,28 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
     }
 
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         final ImageView vImmagine1 = view.findViewById(R.id.imageView);
         final ImageView vImmagine2 = view.findViewById(R.id.imageView2);
-        final int vId1, vId2;
 
-
-        int cursorPosition = cursor.getPosition() * 2;
+        final int cursorPosition = cursor.getPosition() * 2;
 
         if(cursorPosition >= cursor.getCount())
             return;
 
         cursor.moveToPosition(cursorPosition);
 
-        vId1 = cursorPosition;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                 .placeholder(R.drawable.placeholder2)
                 .transform(new RoundedCorners(50))
                 .into(vImmagine1);
+//        Cursor help1 = context.getContentResolver().query(MovieProvider.MOVIES_URI, null,
+//                MovieTableHelper.TITOLO +" = "+  " '" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.TITOLO))+"'",
+//                null, null);
+//        help1.moveToNext();
+//        final int helpId1 = help1.getInt(help1.getColumnIndex(MovieTableHelper._ID));
+        final int helpId1 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID));
 
 
         if(cursorPosition + 1 >= cursor.getCount()) {
@@ -73,26 +76,28 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
 
         cursor.moveToPosition(cursorPosition + 1);
 
-        vId2 = vId1 + 1;
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
                 .placeholder(R.drawable.placeholder2)
                 .transform(new RoundedCorners(50))
                 .into(vImmagine2);
-
-
+//        Cursor help2 = context.getContentResolver().query(MovieProvider.MOVIES_URI, null,
+//                MovieTableHelper.TITOLO +" = "+  " '" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.TITOLO))+"'",
+//                null, null);
+//        help2.moveToNext();
+//        final int helpId2 = help2.getInt(help2.getColumnIndex(MovieTableHelper._ID));
+        final int helpId2 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID));
 
         vImmagine1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", vId1);
-
-                Log.d("id", String.valueOf(vId1));
+                vBundle.putInt("_ID", helpId1);
+                Log.d("id", String.valueOf(helpId1));
 
                 Intent vIntent = new Intent(context, DetailMovies.class);
                 vIntent.putExtras(vBundle);
-                view.getContext().startActivity(vIntent);
+                context.startActivity(vIntent);
                 //view.getContext().startActivity(new Intent(context, DetailMovies.class));
             }
         });
@@ -101,13 +106,12 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
             @Override
             public void onClick(View view) {
                 Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", vId2);
-
-                Log.d("id", String.valueOf(vId2));
+                vBundle.putInt("_ID", helpId2);
+                Log.d("id", String.valueOf(helpId2));
 
                 Intent vIntent = new Intent(context, DetailMovies.class);
                 vIntent.putExtras(vBundle);
-                view.getContext().startActivity(vIntent);
+                context.startActivity(vIntent);
                 //view.getContext().startActivity(new Intent(context, DetailMovies.class));
             }
         });
