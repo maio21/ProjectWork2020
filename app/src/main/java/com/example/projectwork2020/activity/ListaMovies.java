@@ -50,7 +50,6 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     private IWebServer webServerListener = new IWebServer() {
         @Override
         public void onMovieFetched(boolean success, MoviePageResult movies, int errorCode, String errorMessage) {
-
                 Log.d("success", "funge");
                 if (success) {
                     for (int i = 0; i < movies.getMovieResult().size(); i++) {
@@ -61,15 +60,15 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
                         vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
                         vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
 
-                        getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
+                        if(getContentResolver().query(MovieProvider.MOVIES_URI, null, MovieTableHelper.TITOLO + " = \"" + movies.getMovieResult().get(i).getTitle() + "\"", null, null).getCount() == 0)
+                            getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
                     }
                     Log.d("asda", "" + movies.getPage());
 
                 } else {
                     Log.d("erroreAPI", errorMessage + " : " + errorCode);
                 }
-
-        }
+            }
     };
 
     @Override
@@ -85,7 +84,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         mAdapter = new MovieAdapter(this, null);
         setListaFilm();
         controlloInternet();
-        gestionePagina();
+        //gestionePagina();
         gestioneEndlessScroll();
 
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -108,7 +107,8 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     private void controlloInternet()
     {
         if (isNetworkAvailable()){
-            webService.getMovie(webServerListener, mPage);
+            if(getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null, null).getCount() == 0)
+                webService.getMovie(webServerListener, mPage);
         } else if (!isNetworkAvailable()) {
             Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null);
             if(vCursor.getCount() == 0)
@@ -131,20 +131,19 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         }
     }
 
-    private void gestionePagina(){
-        Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null);
-        if(vCursor.getCount() == 0) {
-            mPage = 1;
-            webService.getMovie(webServerListener, mPage++);
-            webService.getMovie(webServerListener, mPage);
-        } else {
-            Cursor vCursor2 = getContentResolver()
-                    .query(MovieProvider.MOVIES_URI, null, null, null, MovieTableHelper.PAGINA + " DESC");
-            vCursor2.moveToNext();
-            mPage = vCursor2.getInt(vCursor2.getColumnIndex(MovieTableHelper.PAGINA));
-            Log.d("pagina", ""+mPage);
-        }
-    }
+//    private void gestionePagina(){
+//
+//            mPage = 1;
+//            webService.getMovie(webServerListener, mPage++);
+//            webService.getMovie(webServerListener, mPage);
+//        } else {
+//            Cursor vCursor2 = getContentResolver()
+//                    .query(MovieProvider.MOVIES_URI, null, null, null, MovieTableHelper.PAGINA + " DESC");
+//            vCursor2.moveToNext();
+//            mPage = vCursor2.getInt(vCursor2.getColumnIndex(MovieTableHelper.PAGINA));
+//            Log.d("pagina", ""+mPage);
+//        }
+//    }
 
     private void gestioneEndlessScroll(){
         mList.setOnScrollListener(new AbsListView.OnScrollListener() {
