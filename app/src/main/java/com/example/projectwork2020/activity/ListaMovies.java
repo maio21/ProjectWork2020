@@ -60,7 +60,9 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
                         vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
                         vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
 
-                        if(getContentResolver().query(MovieProvider.MOVIES_URI, null, MovieTableHelper.TITOLO + " = \"" + movies.getMovieResult().get(i).getTitle() + "\"", null, null).getCount() == 0)
+                        if(getContentResolver().query(MovieProvider.MOVIES_URI, null,
+                                MovieTableHelper.TITOLO + " = \"" + movies.getMovieResult().get(i).getTitle() + "\"",
+                                null, null).getCount() == 0)
                             getContentResolver().insert(MovieProvider.MOVIES_URI, vValues);
                     }
                     Log.d("asda", "" + movies.getPage());
@@ -76,6 +78,11 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_movies);
         getSupportActionBar().setTitle("Movies");
+
+        if(savedInstanceState != null){
+            mPage = savedInstanceState.getInt("PAGINA");
+        }
+
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
         mList = findViewById(R.id.listViewFilm);
         mList.setDivider(null);
@@ -218,5 +225,11 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("PAGINA", mPage);
+        super.onSaveInstanceState(outState);
     }
 }
