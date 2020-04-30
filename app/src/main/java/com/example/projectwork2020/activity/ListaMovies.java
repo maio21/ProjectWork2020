@@ -83,15 +83,15 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
 
         mAdapter = new MovieAdapter(this, null);
         setListaFilm();
+
         controlloInternet();
-        //gestionePagina();
-        gestioneEndlessScroll();
 
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if(isNetworkAvailable()){
                     webService.getMovie(webServerListener, mPage);
+                    gestioneEndlessScroll();
                     pullToRefresh.setRefreshing(false);
                 } else {
                     Toast.makeText(ListaMovies.this, "ATTENZIONE!! nessuna connesione", Toast.LENGTH_LONG).show();
@@ -100,15 +100,17 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
 
             }
         });
-
     }
-
 
     private void controlloInternet()
     {
         if (isNetworkAvailable()){
             if(getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null, null).getCount() == 0)
+            {
                 webService.getMovie(webServerListener, mPage);
+                gestioneEndlessScroll();
+            }
+
         } else if (!isNetworkAvailable()) {
             Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null, null, null);
             if(vCursor.getCount() == 0)
@@ -131,19 +133,6 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         }
     }
 
-//    private void gestionePagina(){
-//
-//            mPage = 1;
-//            webService.getMovie(webServerListener, mPage++);
-//            webService.getMovie(webServerListener, mPage);
-//        } else {
-//            Cursor vCursor2 = getContentResolver()
-//                    .query(MovieProvider.MOVIES_URI, null, null, null, MovieTableHelper.PAGINA + " DESC");
-//            vCursor2.moveToNext();
-//            mPage = vCursor2.getInt(vCursor2.getColumnIndex(MovieTableHelper.PAGINA));
-//            Log.d("pagina", ""+mPage);
-//        }
-//    }
 
     private void gestioneEndlessScroll(){
         mList.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -154,7 +143,6 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(view.getLastVisiblePosition()/10 == mPage-1){
-                    //add footer view
                     webService.getMovie(webServerListener, ++mPage);
                 }
             }

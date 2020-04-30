@@ -68,7 +68,7 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
 
         if(cursorPosition + 1 >= cursor.getCount()) {
             vImmagine2.setImageDrawable(null);
-            vImmagine2.setVisibility(View.GONE);
+            vImmagine2.setVisibility(View.INVISIBLE);
             return;
         } else {
             vImmagine2.setVisibility(View.VISIBLE);
