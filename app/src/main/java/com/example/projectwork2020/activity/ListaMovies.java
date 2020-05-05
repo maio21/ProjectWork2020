@@ -46,6 +46,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     public static final int MY_LOADER_ID = 0;
     private WebService webService;
     private int mPage = 1;
+    private String query ;
 
     private IWebServer webServerListener = new IWebServer() {
         @Override
@@ -220,7 +221,8 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
 
             @Override
             public boolean onQueryTextChange(String movieTitle) {
-                mAdapter.getFilter().filter(movieTitle);
+                query = movieTitle;
+                mAdapter.getFilter().filter(query);
                 return true;
             }
         });

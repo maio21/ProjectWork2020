@@ -2,6 +2,7 @@ package com.example.projectwork2020.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,4 +50,5 @@ public class DetailMovies extends AppCompatActivity {
             Glide.with(DetailMovies.this).load(vImmagine).placeholder(R.drawable.placeholder).into(mImmagine);
         }
     }
+
 }

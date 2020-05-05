@@ -59,7 +59,6 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
                 .transform(new RoundedCorners(50))
                 .into(vImmagine1);
         final int helpId1 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper.ID_FILM));
-        // prova
 
         vImmagine1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +69,7 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
 
                 Intent vIntent = new Intent(context, DetailMovies.class);
                 vIntent.putExtras(vBundle);
+                vIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 context.startActivity(vIntent);
             }
         });
@@ -110,9 +110,9 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
 
     @Override
     public int getCount() {
-        Cursor bb = getCursor();
-        if(bb!= null)
-            return (bb.getCount() % 2 == 0)? bb.getCount()/2: bb.getCount()/2+1;
+        Cursor vCursor = getCursor();
+        if(vCursor!= null)
+            return (vCursor.getCount() % 2 == 0)? vCursor.getCount()/2: vCursor.getCount()/2+1;
         else
             return 0;
     }
