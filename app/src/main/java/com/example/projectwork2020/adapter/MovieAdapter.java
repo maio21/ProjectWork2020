@@ -59,6 +59,7 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
                 .transform(new RoundedCorners(50))
                 .into(vImmagine1);
         final int helpId1 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper.ID_FILM));
+        // prova
 
         vImmagine1.setOnClickListener(new View.OnClickListener() {
             @Override
