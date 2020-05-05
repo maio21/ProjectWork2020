@@ -37,8 +37,8 @@ public class DetailMovies extends AppCompatActivity {
         if(getIntent().getExtras() != null)
         {
             mId = getIntent().getExtras().getInt("_ID");
-            //mId ++;
-            Cursor vCursor = getContentResolver().query(Uri.parse(MovieProvider.MOVIES_URI + "/" + mId), null, null, null);
+            Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null,
+                    MovieTableHelper.ID_FILM  + " = " + mId, null, null);
             vCursor.moveToNext();
             String vTitolo = vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.TITOLO));
             String vDescrizione = vCursor.getString(vCursor.getColumnIndex(MovieTableHelper.DESCRIZIONE));
@@ -46,8 +46,6 @@ public class DetailMovies extends AppCompatActivity {
 
             mTitolo.setText(vTitolo);
             mDescrizione.setText(vDescrizione);
-            //Glide.with(DetailMovies.this).load(vImmagine).apply(new RequestOptions().override(1000, 200)).into(mImmagine);
-            //Glide.with(DetailMovies.this).load(vImmagine).override(2000, 1000).centerCrop().into(mImmagine);
             Glide.with(DetailMovies.this).load(vImmagine).placeholder(R.drawable.placeholder).into(mImmagine);
         }
     }

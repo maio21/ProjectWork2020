@@ -10,9 +10,11 @@ public class MovieTableHelper implements BaseColumns {
     public static final String IMG_DESCRIZIONE = "img_descrizione";
     public static final String TITOLO = "titolo";
     public static final String DESCRIZIONE = "descrizione";
+    public static final String ID_FILM = "id_film";
 
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
             _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            ID_FILM + " INTEGER, " +
             TITOLO + " TEXT, " +
             PAGINA + " INTEGER, " +
             DESCRIZIONE + " TEXT, " +

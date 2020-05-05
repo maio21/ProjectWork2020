@@ -59,7 +59,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
                         vValues.put(MovieTableHelper.DESCRIZIONE, movies.getMovieResult().get(i).getOverview());
                         vValues.put(MovieTableHelper.IMG_COPERTINA, movies.getMovieResult().get(i).getPoster_path());
                         vValues.put(MovieTableHelper.IMG_DESCRIZIONE, movies.getMovieResult().get(i).getBackdrop_path());
-
+                        vValues.put(MovieTableHelper.ID_FILM, movies.getMovieResult().get(i).getId());
                         if(getContentResolver().query(MovieProvider.MOVIES_URI, null,
                                 MovieTableHelper.TITOLO + " = \"" + movies.getMovieResult().get(i).getTitle() + "\"",
                                 null, null).getCount() == 0)

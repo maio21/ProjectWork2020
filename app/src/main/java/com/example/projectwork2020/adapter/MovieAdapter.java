@@ -58,71 +58,60 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
                 .placeholder(R.drawable.placeholder2)
                 .transform(new RoundedCorners(50))
                 .into(vImmagine1);
-//        Cursor help1 = context.getContentResolver().query(MovieProvider.MOVIES_URI, null,
-//                MovieTableHelper.TITOLO +" = "+  " '" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.TITOLO))+"'",
-//                null, null);
-//        help1.moveToNext();
-//        final int helpId1 = help1.getInt(help1.getColumnIndex(MovieTableHelper._ID));
-        final int helpId1 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID));
-
-
-        if(cursorPosition + 1 >= cursor.getCount()) {
-            vImmagine2.setImageDrawable(null);
-            vImmagine2.setVisibility(View.INVISIBLE);
-            return;
-        } else {
-            vImmagine2.setVisibility(View.VISIBLE);
-        }
-
-        cursor.moveToPosition(cursorPosition + 1);
-
-        Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500/" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                .placeholder(R.drawable.placeholder2)
-                .transform(new RoundedCorners(50))
-                .into(vImmagine2);
-//        Cursor help2 = context.getContentResolver().query(MovieProvider.MOVIES_URI, null,
-//                MovieTableHelper.TITOLO +" = "+  " '" + cursor.getString(cursor.getColumnIndex(MovieTableHelper.TITOLO))+"'",
-//                null, null);
-//        help2.moveToNext();
-//        final int helpId2 = help2.getInt(help2.getColumnIndex(MovieTableHelper._ID));
-        final int helpId2 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper._ID));
+        final int helpId1 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper.ID_FILM));
 
         vImmagine1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle vBundle = new Bundle();
                 vBundle.putInt("_ID", helpId1);
-                Log.d("id", String.valueOf(helpId1));
+                Log.d("id-1", String.valueOf(helpId1));
 
                 Intent vIntent = new Intent(context, DetailMovies.class);
                 vIntent.putExtras(vBundle);
                 context.startActivity(vIntent);
-                //view.getContext().startActivity(new Intent(context, DetailMovies.class));
             }
         });
 
-        vImmagine2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle vBundle = new Bundle();
-                vBundle.putInt("_ID", helpId2);
-                Log.d("id", String.valueOf(helpId2));
+        if(cursorPosition + 1 >= cursor.getCount()) {
+            vImmagine2.setImageDrawable(null);
+            vImmagine2.setVisibility(View.INVISIBLE);
 
-                Intent vIntent = new Intent(context, DetailMovies.class);
-                vIntent.putExtras(vBundle);
-                context.startActivity(vIntent);
-                //view.getContext().startActivity(new Intent(context, DetailMovies.class));
-            }
-        });
+        } else {
+            vImmagine2.setVisibility(View.VISIBLE);
 
+
+            cursor.moveToPosition(cursorPosition + 1);
+
+            Glide.with(context)
+                    .load("https://image.tmdb.org/t/p/w500/" +
+                            cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
+                    .placeholder(R.drawable.placeholder2)
+                    .transform(new RoundedCorners(50))
+                    .into(vImmagine2);
+            final int helpId2 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper.ID_FILM));
+
+            vImmagine2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle vBundle = new Bundle();
+                    vBundle.putInt("_ID", helpId2);
+                    Log.d("id-2", String.valueOf(helpId2));
+
+                    Intent vIntent = new Intent(context, DetailMovies.class);
+                    vIntent.putExtras(vBundle);
+                    context.startActivity(vIntent);
+                }
+            });
+        }
 
     }
 
     @Override
     public int getCount() {
-        if(getCursor()!= null)
-            return (getCursor().getCount() % 2 == 0)? getCursor().getCount()/2: getCursor().getCount()/2+1;
+        Cursor bb = getCursor();
+        if(bb!= null)
+            return (bb.getCount() % 2 == 0)? bb.getCount()/2: bb.getCount()/2+1;
         else
             return 0;
     }
