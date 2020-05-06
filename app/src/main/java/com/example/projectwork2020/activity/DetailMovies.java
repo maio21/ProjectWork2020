@@ -27,7 +27,8 @@ public class DetailMovies extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movies);
         getSupportActionBar().setTitle("Movies details");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mTitolo = findViewById(R.id.textViewTitolo);
         mDescrizione = findViewById(R.id.textViewDescrizione);
