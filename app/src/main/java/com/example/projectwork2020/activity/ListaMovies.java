@@ -46,7 +46,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     public static final int MY_LOADER_ID = 0;
     private WebService webService;
     private int mPage = 1;
-    private String query ;
+    private String query = "";
 
     private IWebServer webServerListener = new IWebServer() {
         @Override
@@ -165,8 +165,19 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
     @NonNull
     @Override
     public Loader onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(this, MovieProvider.MOVIES_URI, null, null, null,
-                MovieTableHelper.PAGINA + " ASC");
+            return new CursorLoader(this, MovieProvider.MOVIES_URI, null, null, null,
+                    MovieTableHelper.PAGINA + " ASC");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(query != "")
+        {
+            Cursor vCursor = getContentResolver().query(MovieProvider.MOVIES_URI, null,
+                    MovieTableHelper.TITOLO + " LIKE '%" + query + "%'", null, null);
+            mAdapter.swapCursor(vCursor);
+        }
     }
 
     @Override
@@ -207,6 +218,8 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_menu, menu);
@@ -215,6 +228,7 @@ public class ListaMovies extends AppCompatActivity implements AirPlaneDialog.IAi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String movieTitle) {
+                query = movieTitle;
                 mAdapter.getFilter().filter(movieTitle);
                 return true;
             }
