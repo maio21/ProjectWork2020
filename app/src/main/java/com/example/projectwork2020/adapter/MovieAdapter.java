@@ -55,7 +55,7 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                .placeholder(R.drawable.placeholder2)
+                .placeholder(R.drawable.placeholder3)
                 .transform(new RoundedCorners(50))
                 .into(vImmagine1);
         final int helpId1 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper.ID_FILM));
@@ -87,7 +87,7 @@ public class MovieAdapter extends CursorAdapter implements Filterable {
             Glide.with(context)
                     .load("https://image.tmdb.org/t/p/w500/" +
                             cursor.getString(cursor.getColumnIndex(MovieTableHelper.IMG_COPERTINA)))
-                    .placeholder(R.drawable.placeholder2)
+                    .placeholder(R.drawable.placeholder3)
                     .transform(new RoundedCorners(50))
                     .into(vImmagine2);
             final int helpId2 = cursor.getInt(cursor.getColumnIndex(MovieTableHelper.ID_FILM));
